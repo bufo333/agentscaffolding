@@ -40,7 +40,7 @@ approve them before the bootstrapper makes the local baseline commit.
 From the project root, start Claude Code:
 
 ```sh
-claude
+claude --agent coordinator
 ```
 
 Then ask it to start the shared workflow, for example:
