@@ -1,0 +1,11 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local AI workflow artifacts. Approved plans are immutable handoffs, but their
+# approval is tied to a specific worktree and base revision.
+.ai/plans/
