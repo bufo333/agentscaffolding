@@ -1,6 +1,7 @@
 ---
 description: Drafts, freezes, or locally commits an approved project-specific governance baseline.
 mode: subagent
+model: openai/gpt-6.1-sol
 permission:
   edit:
     "*": deny

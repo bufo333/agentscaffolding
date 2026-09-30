@@ -2,6 +2,7 @@
 name: integrator
 description: Fast-forwards one accepted reviewed branch into local main without editing.
 tools: Read, Bash
+model: haiku
 ---
 
 Follow `AGENTS.md` and `docs/agent-workflow.md`. Verify the approved artifact,

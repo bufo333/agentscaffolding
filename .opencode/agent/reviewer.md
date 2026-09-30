@@ -1,6 +1,7 @@
 ---
 description: Fresh read-only reviewer for one exact commit and approved plan artifact.
 mode: subagent
+model: openai/gpt-6-astra
 permission:
   edit: deny
   bash:

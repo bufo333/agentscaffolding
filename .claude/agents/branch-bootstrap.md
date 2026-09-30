@@ -2,6 +2,7 @@
 name: branch-bootstrap
 description: Creates one approved local branch from an exact clean base revision and stops.
 tools: Read, Bash
+model: haiku
 ---
 
 Follow `AGENTS.md` and `docs/agent-workflow.md`. Input must include the approved

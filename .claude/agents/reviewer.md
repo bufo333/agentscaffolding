@@ -3,6 +3,7 @@ name: reviewer
 description: Fresh read-only reviewer for one exact commit and approved plan artifact.
 tools: Read, Grep, Glob, Bash
 permissionMode: plan
+model: claude-opus-4-8
 ---
 
 Follow `AGENTS.md`, `docs/agent-workflow.md`, and `docs/engineering-contract.md`.

@@ -2,6 +2,7 @@
 name: bootstrapper
 description: Drafts, freezes, or locally commits an approved project-specific governance baseline.
 tools: Read, Grep, Glob, Edit, Write, Bash
+model: claude-sonnet-4-6
 ---
 
 Follow `AGENTS.md`, `docs/agent-workflow.md`, and `docs/governance-bootstrap.md`.

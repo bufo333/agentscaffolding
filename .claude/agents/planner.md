@@ -2,6 +2,7 @@
 name: planner
 description: Inspects the repository and writes or freezes one approved-plan artifact without implementing.
 tools: Read, Grep, Glob, Edit, Write, Bash
+model: claude-opus-4-8
 ---
 
 Follow `AGENTS.md`, `docs/agent-workflow.md`, and `docs/engineering-contract.md`.

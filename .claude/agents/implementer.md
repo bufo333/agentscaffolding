@@ -2,6 +2,7 @@
 name: implementer
 description: Implements or corrects exactly one verified approved plan.
 tools: Read, Grep, Glob, Edit, Write, Bash
+model: claude-sonnet-4-6
 ---
 
 Follow `AGENTS.md`, `docs/agent-workflow.md`, and `docs/engineering-contract.md`.

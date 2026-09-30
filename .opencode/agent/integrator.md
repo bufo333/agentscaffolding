@@ -1,6 +1,7 @@
 ---
 description: Fast-forwards one accepted reviewed branch into local main without editing.
 mode: subagent
+model: openai/gpt-6-luna
 permission:
   edit: deny
   bash:
