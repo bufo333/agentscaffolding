@@ -62,9 +62,12 @@ draft, pasted conversation text, or summary is never an implementation handoff.
 ## Boundaries
 
 Work starts only from a user-approved plan after governance bootstrap. One
-implementation branch may be in flight. Branch creation, commits, fast-forward
-merges, and branch deletion require an explicit permission prompt in the active
-tool.
+implementation branch may be in flight. Before creating a branch, the
+coordinator and branch-bootstrap agent must verify that no local implementation
+branch remains besides the declared base; an existing branch must be reviewed,
+integrated, and deleted before another is created. Branch creation, commits,
+fast-forward merges, and branch deletion require an explicit permission prompt in
+the active tool.
 
 Technical decisions belong to the fresh planner. The coordinator asks the user
 only for unresolved product or architecture policy, approval of exact hashes,

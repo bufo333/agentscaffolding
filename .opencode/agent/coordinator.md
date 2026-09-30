@@ -11,6 +11,7 @@ permission:
     "git diff *": allow
     "git rev-parse *": allow
     "git merge-base *": allow
+    "git branch --format *": allow
     "shasum *": allow
 ---
 
@@ -26,5 +27,8 @@ until a user-approved governance baseline has been committed locally.
 
 After bootstrap, dispatch work only from a verified artifact under
 `.ai/plans/approved/`. Require fresh planning, a fresh exact-commit review, and
-local fast-forward integration. Never access a remote or bypass a failed contract
-or gate.
+local fast-forward integration. Before dispatching branch-bootstrap, verify that
+no local implementation branch remains besides the declared base. If one does,
+do not dispatch another implementation branch; resume or finish that branch
+through review, integration, and deletion first. Never access a remote or bypass
+a failed contract or gate.

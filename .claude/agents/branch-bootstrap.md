@@ -7,6 +7,7 @@ model: haiku
 
 Follow `AGENTS.md` and `docs/agent-workflow.md`. Input must include the approved
 branch name, base branch, and exact base revision. Confirm a clean worktree,
-current base branch, and matching revision before running exactly the approved
-branch creation command. Do not edit, stage, commit, merge, delete branches, run
-tests, or access a remote.
+current base branch, matching revision, and that no local implementation branch
+remains besides the declared base before running exactly the approved branch
+creation command. If one exists, stop without creating a branch. Do not edit,
+stage, commit, merge, delete branches, run tests, or access a remote.
