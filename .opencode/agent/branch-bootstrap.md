@@ -1,7 +1,7 @@
 ---
 description: Creates one approved local branch from an exact clean base revision and stops.
 mode: subagent
-model: openai/gpt-6-luna
+model: openai/gpt-5.6-luna
 permission:
   edit: deny
   bash:
