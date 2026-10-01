@@ -2,13 +2,12 @@
 
 ## Status and scope
 
-This proposed architectural baseline accompanies `docs/engineering-contract.md`
-and was inspected against `main` at
-`567e0803a53b431da4eb2017a7d65005c9e5a44f`. It describes existing boundaries and
-the accepted OpenRig migration direction; it does not implement that migration.
-Current delivery authority remains `docs/agent-workflow.md` with its existing
-exact-hash user approvals and tool permission prompts. Bootstrap acceptance still
-requires exact-path/hash approval and a separate prompted local baseline commit.
+This user-confirmed architectural baseline accompanies
+`docs/engineering-contract.md`; its historical draft was inspected against `main`
+at `567e0803a53b431da4eb2017a7d65005c9e5a44f`. It describes existing boundaries,
+static native placement, and the accepted OpenRig migration direction. Current
+delivery authority remains `docs/agent-workflow.md` with exact-hash approvals and
+tool permission prompts; static configuration does not migrate them.
 
 The system being governed is the reusable framework, not a future adopting
 application. No application modules, languages, service architecture, or data
@@ -25,17 +24,15 @@ model are prescribed here.
 | `docs/project-architecture.md` | Framework component and trust boundaries; no alternate delivery authority. |
 | `opencode.json`, `.opencode/agent/`, `.opencode/command/workflow.md` | OpenCode entry point, role definitions, permissions, and `/workflow` dispatch. Preserve this standalone adapter. |
 | `CLAUDE.md`, `.claude/agents/`, `.claude/settings.json` | Claude entry point, matching role adapters, and permissions. Preserve this standalone adapter. |
-| Future Codex-native adapter and OpenRig definitions (not present) | Translate GPT role instructions, model intent, and safety boundaries for Codex; orchestrate Codex/GPT and Claude Code without replacing standalone adapters. Exact configuration mapping remains unverified. |
+| `.codex/config.toml`, `.codex/agents/` | Project Codex instructions and standalone custom role definitions; static instruction equivalence only. |
+| `openrig/{codex,claude,mixed}/rig.yaml`, `openrig/agents/` | Explicit optional RigSpecs and reusable AgentSpecs for Codex, Claude Code, and mixed placement; not auto-discovery, orchestration, or enforcement. |
 | `.ai/plans/` | Ignored local mutable draft and immutable approved snapshots; not a shared session or a substitute for verifying bytes and base. |
 | `README.md` | Current setup and invocation documentation, not evidence of executable tests or OpenRig compatibility. |
 
-The inspected OpenCode definitions use `openai/gpt-6.1-sol` for coordinator and
-bootstrapper, `openai/gpt-6-astra` for planner, implementer, and reviewer, and
-`openai/gpt-6-luna` for branch-bootstrap and integrator. The Claude definitions
-use `claude-sonnet-4-6` for coordinator/bootstrapper/implementer,
-`claude-opus-4-8` for planner/reviewer, and `haiku` for branch-bootstrap/integrator.
-These are existing configuration identifiers only; no availability or successful
-execution is asserted.
+Existing standalone adapter model identifiers remain preserved in their own
+files. The native Codex and OpenRig definitions intentionally select no model
+mapping or pin; inherited defaults, availability, and successful execution are
+not asserted.
 
 ## Shared role and acceptance boundaries
 
@@ -77,8 +74,8 @@ not session state, and must remain usable without OpenRig as they are today.
 The accepted additional targets are OpenRig Codex/GPT, OpenRig Claude Code, and
 an OpenRig mixed profile with Claude planner/implementer and a fresh independent
 GPT reviewer through Codex. OpenRig is the orchestration layer, not a replacement
-for role authority. No Codex-native adapter, OpenRig definition, or integration
-exists in the inspected scaffold.
+for role authority. Static Codex-native definitions and OpenRig RigSpec/AgentSpec
+definitions now exist, but they are not an integration or execution claim.
 
 Verified public sources, read during this draft:
 
@@ -101,6 +98,14 @@ model mapping and report unsupported capabilities rather than require them.
 Existing model identifiers above are evidence of intent, not verified Codex
 identifiers. Standalone OpenCode and Claude Code remain available alongside the
 new OpenRig profiles; native OpenCode-in-OpenRig is not a required configuration.
+
+The static topology has empty edges: it neither starts nor enforces workflow
+delegation. AgentSpec role text is delivered with `send_text` after harness
+readiness, and each seat must acknowledge its bounded dispatch before work. A
+`relaunch_fresh` restore policy is not proof of a fresh operation. Persistent
+seats, queue closure, and readiness do not establish independent exact-commit
+review. Claude/mixed managed blocks target `CLAUDE.local.md`, but other runtime
+writes, including Codex blocks to `AGENTS.md`, remain possible.
 
 For a future approved migration, enforce these architectural boundaries:
 
@@ -138,12 +143,9 @@ the contract's governance, material-scope, security, product-policy, and externa
 requirement boundaries. These defaults describe the future migration, not a
 waiver of today's binding approvals.
 
-That later migration includes Codex-native configuration, OpenRig definitions,
-permission/workflow changes, and README instructions for both with-OpenRig and
-without-OpenRig operation. The README must retain standalone guidance and add
-verified profile prerequisites and start commands, without claiming target
-behavior already works. No such configuration, definitions, permission changes,
-or README edits belong to this documentation-only bootstrap.
+That later migration includes permission/workflow changes and runtime validation.
+Static Codex/OpenRig placement and README documentation retain standalone guidance
+without claiming target behavior works or providing guessed launch commands.
 
 ## Validation and adoption boundaries
 

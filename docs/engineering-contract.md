@@ -2,14 +2,11 @@
 
 ## Status and authority
 
-This is a proposed bootstrap baseline, not an approved migration or an executable
-permission change. It was drafted against local `main` at
-`567e0803a53b431da4eb2017a7d65005c9e5a44f` using the coordinator's recorded
-questionnaire answers and fresh repository inspection. Normal delivery remains
-unavailable until the user approves the exact governance paths and SHA-256 values
-and a fresh bootstrapper commits that baseline through an explicit permission
-prompt, as required by `docs/governance-bootstrap.md` and the current adapters.
-Merely creating this file does not complete bootstrap.
+This is the user-confirmed governance baseline for the reusable framework, not
+an approved executable permission migration. Its historical draft inspection was
+against local `main` at `567e0803a53b431da4eb2017a7d65005c9e5a44f` using the
+coordinator's recorded questionnaire answers and fresh repository inspection.
+That provenance does not limit current approved-plan delivery.
 
 `AGENTS.md` links this project-specific contract and
 `docs/project-architecture.md`, the architectural authority. The presently binding
@@ -36,13 +33,11 @@ dependency evidence, not an OpenCode CLI or OpenRig installation version.
 Configured model identifiers are evidence of adapter intent, not proof of provider
 availability, credentials, compatibility, or successful execution.
 
-OpenRig's public getting-started documentation describes a local daemon, SQLite,
-ordinary tmux-backed Claude Code/Codex sessions, macOS/Linux, Node 22 or 24,
-Node 22 on Apple silicon, tmux, and installed/authenticated coding harnesses:
-<https://openrig.dev/docs/getting-started>. These are documented prospective
-requirements, not verified installed tools. No installation or toolchain version
-has been selected for this repository. Native OpenCode harness support is not
-established by the inspected documentation.
+This static scope uses only verified placement and format facts from the official
+sources listed below. No tool, provider, installation version, platform/runtime
+prerequisite, model mapping, authentication, or successful execution is selected
+or validated. OpenRig documents Claude Code and Codex sessions, not native
+OpenCode runtime support.
 
 ## Profiles and shared boundaries
 
@@ -54,15 +49,16 @@ Changing tools or models does not change authorization.
 | --- | --- | --- |
 | Standalone OpenCode/GPT | GPT roles through the existing OpenCode definitions, without OpenRig | Definitions present; preserve existing behavior. Provider availability unverified. |
 | Standalone Claude Code | Claude roles through the existing Claude definitions, without OpenRig | Definitions present; preserve existing behavior. Provider availability unverified. |
-| OpenRig Codex/GPT | Equivalent GPT roles through a future Codex-native adapter, orchestrated by OpenRig | Accepted compatibility target only; role/model mapping and permission conformance unverified. |
-| OpenRig Claude Code | Claude roles through Claude Code, orchestrated by OpenRig | Accepted compatibility target only; orchestration and adapter conformance unverified. |
-| OpenRig mixed | Claude planner and implementer, fresh GPT independent reviewer through Codex | Accepted target only; session isolation, permissions, and acceptance transport require design and validation. |
+| Codex-native | Equivalent role instructions in trusted project `.codex/config.toml` and `.codex/agents/*.toml`, without OpenRig | Static placement present; model/default inheritance, permissions, and execution unverified. |
+| OpenRig Codex/GPT | Codex role AgentSpecs selected by `openrig/codex/rig.yaml` | Static RigSpec/AgentSpec placement present; orchestration, isolation, permissions, and execution unverified. |
+| OpenRig Claude Code | Claude Code role AgentSpecs selected by `openrig/claude/rig.yaml` | Static placement present; orchestration, isolation, permissions, and execution unverified. |
+| OpenRig mixed | Claude planner/implementer; Codex other roles, selected by `openrig/mixed/rig.yaml` | Static placement present; orchestration, isolation, permissions, and acceptance transport unverified. |
 
-The user's request to duplicate the GPT settings for Codex means equivalent role
-instructions, model intent, and safety boundaries in a Codex-native adapter, not
-a blind copy of OpenCode configuration syntax. Exact Codex configuration support,
-model identifiers, and role mapping have not been verified. Do not require an
-unsupported configuration or represent OpenCode as a native OpenRig harness.
+Codex equivalence means role instructions and safety boundaries, not a blind copy
+of OpenCode syntax. New definitions omit optional model, effort, sandbox,
+permission, hook, MCP, and runtime-resource fields. They do not establish native
+permission equivalence or account/model availability. Do not represent OpenCode
+as a native OpenRig harness.
 The future compatibility layer must keep both existing standalone modes available;
 it must not silently replace them or discard the accepted authorization defaults
 below. See the architecture document for evidence and boundary requirements.
@@ -129,14 +125,13 @@ its whitespace check and `git diff --no-index /dev/null <path>` for its full
 addition diff. A full addition diff normally exits 1 to signal differences; that
 is not an acceptance failure. Hashes identify bytes, not correctness.
 
-For this documentation-only bootstrap, verification consists of these applicable
-read-only checks plus manual review of both complete drafts for consistency with
-the recorded answers, current workflow/adapters, evidence, and allowed paths.
-Exact hashes then require user approval and the existing separate commit process.
-No runtime migration, adapter conformance, provider login, or end-to-end test has
-been validated by these checks.
+For the approved static native-configuration scope, the applicable gate is the
+plan's complete manual path/schema, syntax, role-equivalence, walkthrough,
+preservation, documentation, diff, and hash audit. It is not an application or
+runtime gate. No runtime migration, adapter conformance, provider login, or
+end-to-end test has been validated by these checks.
 
-**Open gate gap:** an exact full executable scaffold gate cannot be derived from
+**Runtime gate gap:** an exact full executable scaffold gate cannot be derived from
 the inspected repository. Do not invent `npm test`, a test suite, coverage target,
 or CI job; do not call the migration ready. A later approved plan must identify
 verified applicable commands and manual acceptance evidence for its scope and
@@ -189,6 +184,28 @@ three automatic correction rounds, or non-destructive local Git target to a new
 policy requiring repeated routine human approvals. Current binding prompts remain
 in force until that approved migration is implemented and validated.
 
+## Static native placement evidence and limitations
+
+The static definitions use project `.codex/config.toml` and standalone
+`.codex/agents/*.toml` custom agents with the required `name`, `description`, and
+`developer_instructions` strings. OpenRig uses version `"0.2"` RigSpecs and
+version `"1.0"` AgentSpecs with explicit `local:` AgentSpec directories,
+`send_text` startup files, and `relaunch_fresh` restore policy. These source
+versions identify evidence, not installed software: Codex official configuration,
+AGENTS, and subagent guides and OpenRig's official guides plus the versioned
+`v0.5.17` RigSpec, AgentSpec, startup, and getting-started references, retrieved
+2026-10-01.
+
+`send_text` arrives after harness readiness; it is not a system/developer prompt
+or tested readiness barrier. Empty rig edges do not imply automatic execution or
+delegation enforcement. Seven persistent seats are not seven fresh operations,
+and `relaunch_fresh` does not prove per-task independence. Queue closure or seat
+readiness is not exact-commit review acceptance. Claude/mixed `managed_blocks`
+use `CLAUDE.local.md` to avoid the tracked `CLAUDE.md`, but other runtime writes,
+including Codex managed blocks to `AGENTS.md`, remain possible. No launch is
+authorized or validated; role isolation, permission conformance, and acceptance
+transport remain separate evidence requirements.
+
 ## Documentation, adoption, and unresolved items
 
 Preserve the existing scaffold documentation as the current process baseline.
@@ -197,11 +214,9 @@ without presenting target behavior as implemented. No new release, versioning,
 or changelog policy has been supplied.
 
 The user also requested README instructions for use with and without OpenRig.
-A future approved migration must document both modes, profile selection,
-verified prerequisites and start commands, and authorization limitations while
-retaining the existing standalone instructions. Codex configuration, OpenRig
-definitions, permission/workflow changes, and that README update are future
-migration scope, not bootstrap deliverables; none is implemented by this draft.
+The README documents standalone and optional native placement, profile selection,
+verified format sources, and limitations without adding a launch command or
+claiming execution. Permission/workflow migration remains future scope.
 
 When copying this reusable scaffold to another project, do not treat this
 framework-specific contract as that application's accepted baseline. Establish
@@ -209,11 +224,8 @@ the adopter's governance through the bootstrap questionnaire before application
 implementation, including its language, platforms, data/privacy policy, and gate.
 The copied framework baseline must not be used to skip that approval.
 
-Unresolved items for the user and future approved planner are: selected OpenRig
-version and local toolchain; verified provider/model availability; Codex-native
-GPT role/model/configuration mapping; demonstrable fresh-session isolation
-despite persistent seats; exact acceptance record transport and rejection of stale
-review; adapter permission conformance; the full scaffold gate and migration
-validation; optional time/cost budgets and enforcement design; and adopting
-projects' own policies. These are not implied approvals to install, configure,
-or migrate anything during bootstrap.
+Unresolved items are verified provider/model availability; runtime selection and
+toolchain; demonstrable fresh-session isolation; exact acceptance transport and
+stale-review rejection; adapter permission conformance; full runtime validation;
+optional time/cost controls; and adopters' own policies. These are not approvals
+to install, execute, or migrate permissions.

@@ -1,0 +1,1 @@
+Follow AGENTS.md and docs/agent-workflow.md. Verify the approved artifact, accepted exact commit, clean worktree, and fast-forward ancestry. Make no edits. Perform only the current binding local fast-forward checkout, merge, and integrated-branch deletion operations through explicit permission prompts. Never access a remote.
