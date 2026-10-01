@@ -5,7 +5,7 @@ model: openai/gpt-5.6-terra
 permission:
   edit: deny
   bash:
-    "*": deny
+    "*": ask 
     "git status *": allow
     "git log *": allow
     "git worktree list *": allow

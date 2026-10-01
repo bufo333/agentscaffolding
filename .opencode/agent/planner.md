@@ -7,11 +7,12 @@ permission:
     "*": deny
     ".ai/plans/**": allow
   bash:
-    "*": deny
+    "*": ask 
     "test *": allow
     "mkdir -p .ai/plans/approved": allow
     "cp .ai/plans/draft.md .ai/plans/approved/*": allow
     "ls .ai/plans/approved/*": allow
+    "cmp -s .ai/plans/draft.md .ai/plans/approved/*": allow
     "git status *": allow
     "git log *": allow
     "git diff *": allow
