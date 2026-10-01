@@ -1,7 +1,7 @@
 ---
 description: Implements or corrects exactly one verified approved plan.
 mode: subagent
-model: openai/gpt-6-astra
+model: openai/gpt-6.1-terra
 permission:
   bash:
     "*": ask

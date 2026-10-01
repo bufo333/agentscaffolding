@@ -1,7 +1,7 @@
 ---
 description: Inspects the repository and writes or freezes one approved-plan artifact without implementing.
 mode: subagent
-model: openai/gpt-6-astra
+model: openai/gpt-6.1-sol
 permission:
   edit:
     "*": deny
