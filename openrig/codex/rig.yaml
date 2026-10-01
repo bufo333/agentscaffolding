@@ -1,7 +1,7 @@
 version: "0.2"
 name: scaffold-codex
 pods:
-  workflow:
+  - id: workflow
     label: Shared workflow
     members:
       - id: coordinator

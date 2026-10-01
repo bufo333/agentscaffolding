@@ -2,7 +2,7 @@ version: "0.2"
 name: scaffold-mixed
 managed_blocks: {claude-code: CLAUDE.local.md}
 pods:
-  workflow:
+  - id: workflow
     label: Shared workflow
     members:
       - {id: coordinator, agent_ref: "local:../agents/coordinator", profile: default, runtime: codex, cwd: "../..", restore_policy: relaunch_fresh}
