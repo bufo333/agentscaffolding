@@ -8,6 +8,7 @@ permission:
     "*": deny
     "git status *": allow
     "git log *": allow
+    "git worktree list *": allow
     "git diff *": allow
     "git rev-parse *": allow
     "git merge-base *": allow
