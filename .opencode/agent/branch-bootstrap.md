@@ -8,6 +8,7 @@ permission:
     "*": deny
     "git status *": allow
     "git log *": allow
+    "git switch -c *": ask
     "shasum *": allow
     "git rev-parse *": allow
     "git branch --format *": allow
