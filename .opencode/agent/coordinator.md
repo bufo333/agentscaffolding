@@ -1,7 +1,7 @@
 ---
 description: Dispatches governance bootstrap and the approved-plan workflow without planning, editing, or changing Git state.
 mode: primary
-model: openai/gpt-6.1-terra
+model: openai/gpt-5.6-Terra
 permission:
   edit: deny
   bash:
