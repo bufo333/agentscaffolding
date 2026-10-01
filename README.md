@@ -54,6 +54,54 @@ Start the shared workflow for: <requested change>
 `CLAUDE.md` directs Claude Code to `AGENTS.md`; the matching role adapters in
 `.claude/agents/` use the same governance bootstrap and approved-plan workflow.
 
+## Start With OpenRig
+
+See the official [OpenRig getting-started guide](https://openrig.dev/docs/getting-started)
+for installation and authentication before running any of the commands below.
+Three prebuilt RigSpecs are included; each must be launched explicitly by
+supplying the path to `rig up`.
+
+### Model assignments by rig variant
+
+| Role | Claude (`openrig/claude`) | Codex (`openrig/codex`) | Mixed (`openrig/mixed`) |
+| --- | --- | --- | --- |
+| coordinator | `claude-sonnet-4-6` | `openai/gpt-5.6-terra` | `openai/gpt-5.6-terra` |
+| bootstrapper | `claude-sonnet-4-6` | `openai/gpt-6.1-sol` | `openai/gpt-6.1-sol` |
+| planner | `claude-opus-4-8` | `openai/gpt-6.1-sol` | `claude-opus-4-8` |
+| branch-bootstrap | `haiku` | `openai/gpt-5.6-luna` | `openai/gpt-5.6-luna` |
+| implementer | `claude-sonnet-4-6` | `openai/gpt-5.6-terra` | `claude-sonnet-4-6` |
+| reviewer | `claude-opus-4-8` | `openai/gpt-6.1-sol` | `openai/gpt-6.1-sol` |
+| integrator | `haiku` | `openai/gpt-6-luna` | `openai/gpt-6-luna` |
+
+The mixed variant uses the Claude model for `claude-code` seats (planner,
+implementer) and the GPT model for `codex` seats (all other roles).
+
+### Rig options
+
+**All seats on Claude Code:**
+
+```sh
+rig up openrig/claude/rig.yaml
+```
+
+**All seats on Codex:**
+
+```sh
+rig up openrig/codex/rig.yaml
+```
+
+**Claude planner and implementer seats with Codex for the other roles:**
+
+```sh
+rig up openrig/mixed/rig.yaml
+```
+
+Once the coordinator seat is running, interact with it directly through the
+OpenRig TUI or messaging to start the shared workflow.
+
+The "Optional OpenRig placement" section below covers the structure and
+constraints of these RigSpecs.
+
 ## Codex-native configuration without OpenRig
 
 Trusted Codex projects can use `.codex/config.toml` for shared project
