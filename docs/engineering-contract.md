@@ -85,8 +85,10 @@ below. See the architecture document for evidence and boundary requirements.
 - Only one implementation branch may be in flight. Branch creation, intended
   staging and commits, fast-forward-only integration into local `main`, and safe
   integrated-branch deletion retain current explicit permission requirements.
-- All remote operations remain user-owned: no push, fetch, pull, remote changes,
-  or GitHub operations. Destructive operations and history rewriting are blocked.
+- All Git remote operations remain user-owned: no push, fetch, pull, or Git
+  remote changes. Scoped read-only web and source research follows
+  `docs/agent-workflow.md`. Destructive operations and history rewriting are
+  blocked.
 - Time and cost budgets are configurable target controls but explicitly unset.
   Do not claim that either is bounded or enforced. No performance, coverage,
   determinism, accessibility, or localization thresholds were supplied for this
@@ -170,7 +172,7 @@ branch creation, intended staging/commits, fast-forward-only integration, and sa
 integrated-branch deletion without repeated prompts. Keep one implementation
 branch, fresh independent review of every changed commit, the three-correction
 limit, stop-on-unexpected-state checks, destructive/history-rewriting blocks, and
-user ownership of all remote operations.
+user ownership of all Git remote operations.
 
 This target does not authorize automatic freezing today, waive current per-plan
 exact-hash approval, or waive any active tool prompt. The approved governance

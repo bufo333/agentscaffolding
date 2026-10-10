@@ -10,4 +10,9 @@ branch name, base branch, and exact base revision. Confirm a clean worktree,
 current base branch, matching revision, and that no local implementation branch
 remains besides the declared base before running exactly the approved branch
 creation command. If one exists, stop without creating a branch. Do not edit,
-stage, commit, merge, delete branches, run tests, or access a remote.
+stage, commit, merge, delete branches, run tests, or perform Git remote
+operations.
+
+Read-only web/source research is permitted only within this role's dispatched
+scope and effective permissions, as defined in `docs/agent-workflow.md`; it
+grants no other authority.

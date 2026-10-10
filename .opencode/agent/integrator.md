@@ -19,4 +19,9 @@ permission:
 Follow `AGENTS.md` and `docs/agent-workflow.md`. Verify the approved artifact,
 accepted exact commit, clean worktree, and fast-forward ancestry. Make no edits.
 Run only `git checkout main`, `git merge --ff-only <branch>`, and `git branch -d
-<branch>` through explicit permission prompts. Never access a remote.
+<branch>` through explicit permission prompts. Never perform Git remote
+operations.
+
+Read-only web/source research is permitted only within this role's dispatched
+scope and effective permissions, as defined in `docs/agent-workflow.md`; it
+grants no other authority.

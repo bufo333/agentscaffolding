@@ -28,7 +28,7 @@ exact set of hashes before a fresh bootstrapper freezes or commits anything.
 After explicit approval, a bootstrapper commits only the approved governance
 baseline locally. It must not create a branch, alter remotes, or make unrelated
 changes. If the repository has no Git history, it may create the initial local
-commit. The user performs all remote operations.
+commit. The user performs all Git remote operations.
 
 ## Plan Artifacts
 
@@ -57,7 +57,17 @@ draft, pasted conversation text, or summary is never an implementation handoff.
    approved artifact.
 8. A fresh integrator verifies the accepted commit, fast-forwards local `main`,
    and deletes the branch.
-9. Agents stop. The user owns remote operations.
+9. Agents stop. The user owns Git remote operations.
+
+## Git remote restrictions
+
+Git remote operations remain user-owned and outside agent authority. Agents
+must not fetch, pull, push, change Git remotes, or perform other Git remote
+operations. Read-only web and source research is permitted when it is within
+the dispatched task and role and allowed by effective instructions and existing
+permissions. This grants no external write, publishing, or messaging authority
+and does not bypass sandbox or network restrictions. Research permission does
+not expand a role's file-write or Git authority.
 
 ## Boundaries
 

@@ -237,4 +237,5 @@ review acceptance.
 3. Restart OpenCode after changing `opencode.json` or files under `.opencode/`.
 
 The scaffold prohibits agents from remote Git operations. Pushes, pulls, fetches,
-remote changes, and GitHub operations remain user-owned.
+and Git remote changes remain user-owned. Scoped read-only web and source
+research is permitted within a dispatched role; see `docs/agent-workflow.md`.

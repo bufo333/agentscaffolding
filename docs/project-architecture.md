@@ -59,7 +59,7 @@ The current sequence is:
    stop and escalate.
 6. Fresh integrator verifies acceptance, cleanliness, and fast-forward ancestry,
    then integrates into local `main` and safely deletes the branch with prompts.
-   Agents stop; remote operations remain user-owned.
+   Agents stop; Git remote operations remain user-owned.
 
 Acceptance attaches to a verified plan and exact committed revision, not a seat,
 model identity, session summary, queue state, or prior commit. Material changes to

@@ -7,10 +7,14 @@ model: claude-opus-4-8
 
 Follow `AGENTS.md`, `docs/agent-workflow.md`, and `docs/engineering-contract.md`.
 The delegation must specify `draft` or `freeze` mode. Never implement, format
-source, change Git state, stage, commit, or access a remote.
+source, change Git state, stage, commit, or perform Git remote operations.
 
 Your only write authority is `.ai/plans/`: in draft mode overwrite only
 `.ai/plans/draft.md`; in freeze mode copy a verified approved draft byte-for-byte
 to a previously nonexistent `.ai/plans/approved/<branch-slug>-<base-short-sha>-<plan-short-sha>.md`.
 The plan must name the exact base revision, branch, authorized work, affected
 files, ordered changes, tests, documentation, gate, risks, and non-goals.
+
+Read-only web/source research is permitted only within this role's dispatched
+scope and effective permissions, as defined in `docs/agent-workflow.md`; it
+grants no other authority.

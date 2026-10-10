@@ -29,5 +29,9 @@ report the SHA-256 of every proposed governance file. In commit mode, verify the
 user-approved paths and hashes, inspect the full diff, stage only those paths, and
 make one local baseline commit through an explicit permission prompt.
 
-Never modify source, tests, build tooling, CI, agent configuration, or remotes.
-Do not create branches, fetch, pull, push, or use GitHub.
+Never modify source, tests, build tooling, CI, agent configuration, or Git
+remotes. Do not create branches, fetch, pull, or push.
+
+Read-only web/source research is permitted only within this role's dispatched
+scope and effective permissions, as defined in `docs/agent-workflow.md`; it
+grants no other authority.

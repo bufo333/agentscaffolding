@@ -20,5 +20,9 @@ After bootstrap, dispatch work only from a verified artifact under
 local fast-forward integration. Before dispatching branch-bootstrap, verify that
 no local implementation branch remains besides the declared base. If one does,
 do not dispatch another implementation branch; resume or finish that branch
-through review, integration, and deletion first. Never access a remote or bypass
-a failed contract or gate.
+through review, integration, and deletion first. Never perform Git remote
+operations or bypass a failed contract or gate.
+
+Read-only web/source research is permitted only within this role's dispatched
+scope and effective permissions, as defined in `docs/agent-workflow.md`; it
+grants no other authority.

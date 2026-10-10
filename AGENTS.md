@@ -15,8 +15,9 @@ before any implementation work begins.
   unverified.
 - Do not bypass an accepted contract, test, architectural boundary, security rule,
   or quality gate to complete work.
-- The user owns all remote operations. Never push, fetch, pull, change remotes, or
-  use GitHub on the user's behalf.
+- The user owns all Git remote operations. Never push, fetch, pull, or change Git
+  remotes. Scoped read-only web and source research follows
+  `docs/agent-workflow.md`.
 - Keep changes within an approved plan. Stop and report a conflict between the
   plan, current repository state, and an accepted project contract.
 
