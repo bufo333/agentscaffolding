@@ -15,7 +15,8 @@ implementation begin only after that baseline exists.
 - `.opencode/`: OpenCode roles and `/workflow` command.
 - `.claude/`: matching Claude role adapters.
 - `.codex/`: Codex project instructions and native custom-agent definitions.
-- `openrig/`: explicit optional OpenRig RigSpecs and reusable role AgentSpecs.
+- `openrig/`: explicit optional OpenRig RigSpecs, reusable role AgentSpecs, and
+  the Codex sandbox profile under `openrig/codex-profiles/`.
 - `.ai/plans/`: ignored mutable and approved plan handoffs, created on demand.
 
 ## Start With OpenCode
@@ -61,17 +62,41 @@ for installation and authentication before running any of the commands below.
 Three prebuilt RigSpecs are included; each must be launched explicitly by
 supplying the path to `rig up`.
 
+### One-time setup for Codex seats
+
+Codex's default sandbox blocks all network access, including the local OpenRig
+daemon, so a Codex seat cannot run `rig whoami` or `rig queue` without a manual
+"run outside the sandbox" approval on every command. The `codex` and `mixed`
+RigSpecs therefore set `codex_config_profile: scaffold-net` on every Codex
+member. That named profile must exist in your Codex home before launch:
+
+```sh
+cp openrig/codex-profiles/scaffold-net.config.toml ~/.codex/scaffold-net.config.toml
+```
+
+If `CODEX_HOME` is set in the daemon's launch environment, copy it there instead.
+The profile keeps the `workspace-write` sandbox and `on-request` approvals and
+only enables `network_access`, which grants general network access to those
+seats, not just the daemon. Without the file, `rig up` fails for Codex members.
+
+The first time OpenRig launches Codex in a project, Codex shows a "Hooks need
+review" dialog for OpenRig's activity hooks. Answer it in each Codex seat
+terminal (`tmux attach -t <seat>`), then restart the rig: role guidance typed
+while that dialog is open is lost, and seats that started without it fall back
+to in-process subagents instead of queue dispatch. Codex records the trust in
+`~/.codex/config.toml`, so later launches do not prompt.
+
 ### Model assignments by rig variant
 
 | Role | Claude (`openrig/claude`) | Codex (`openrig/codex`) | Mixed (`openrig/mixed`) |
 | --- | --- | --- | --- |
-| coordinator | `claude-sonnet-4-6` | `openai/gpt-5.6-terra` | `openai/gpt-5.6-terra` |
-| bootstrapper | `claude-sonnet-4-6` | `openai/gpt-6.1-sol` | `openai/gpt-6.1-sol` |
-| planner | `claude-opus-4-8` | `openai/gpt-6.1-sol` | `claude-opus-4-8` |
-| branch-bootstrap | `haiku` | `openai/gpt-5.6-luna` | `openai/gpt-5.6-luna` |
-| implementer | `claude-sonnet-4-6` | `openai/gpt-5.6-terra` | `claude-sonnet-4-6` |
-| reviewer | `claude-opus-4-8` | `openai/gpt-6.1-sol` | `openai/gpt-6.1-sol` |
-| integrator | `haiku` | `openai/gpt-6-luna` | `openai/gpt-6-luna` |
+| coordinator | `claude-sonnet-4-6` | `gpt-5.6-terra` | `gpt-5.6-terra` |
+| bootstrapper | `claude-sonnet-4-6` | `gpt-6.1-sol` | `gpt-6.1-sol` |
+| planner | `claude-opus-4-8` | `gpt-6.1-sol` | `claude-opus-4-8` |
+| branch-bootstrap | `haiku` | `gpt-5.6-luna` | `gpt-5.6-luna` |
+| implementer | `claude-sonnet-4-6` | `gpt-5.6-terra` | `claude-sonnet-4-6` |
+| reviewer | `claude-opus-4-8` | `gpt-6.1-sol` | `gpt-6.1-sol` |
+| integrator | `haiku` | `gpt-6-luna` | `gpt-6-luna` |
 
 The mixed variant uses the Claude model for `claude-code` seats (planner,
 implementer) and the GPT model for `codex` seats (all other roles).
@@ -96,8 +121,49 @@ rig up openrig/codex/rig.yaml
 rig up openrig/mixed/rig.yaml
 ```
 
-Once the coordinator seat is running, interact with it directly through the
-OpenRig TUI or messaging to start the shared workflow.
+### Using the rig
+
+Seats are named `workflow-<role>@<rig-name>`, for example
+`workflow-coordinator@scaffold-mixed`. Only the coordinator takes work from you.
+Open every seat as a terminal tile, or attach to one:
+
+```sh
+rig terminal open scaffold-mixed
+tmux attach -t workflow-coordinator@scaffold-mixed
+```
+
+Describe the work in the coordinator's terminal. Each role's
+`openrig/agents/<role>/guidance/role.md` tells the seat that its workers are the
+other seats: the coordinator dispatches with `rig queue create` or
+`rig queue handoff` addressed to a seat, and every worker claims its item, does
+the bounded work, and hands the item back with `rig queue handoff`. In-process
+subagents are prohibited for role work. Watch progress with:
+
+```sh
+rig ps --nodes --rig scaffold-mixed
+rig queue list
+rig transcript workflow-coordinator@scaffold-mixed --tail 50
+```
+
+A seat in `needs-input` is stuck on a native prompt that only you can answer.
+Claude Code seats prompt for `rig` commands at first use; choosing the
+"don't ask again" option for `rig whoami` and `rig queue` avoids repeats.
+
+### Restarting
+
+Relaunching immediately after `rig down` can leave a half-created rig whose
+harness never started, and a second record of the same name blocks the next
+`rig up` with an ambiguous-name error. The sequence that works reliably:
+
+```sh
+rig down scaffold-mixed --delete
+rig ps --filter status=stopped   # confirm no record of that name remains
+rig up openrig/mixed/rig.yaml
+```
+
+If `rig down --delete` reports sessions it cannot kill, run `tmux kill-server`,
+restart the daemon with `rig daemon stop` and `rig daemon start` so it reconciles
+the dead sessions, then delete the record and launch again.
 
 The "Optional OpenRig placement" section below covers the structure and
 constraints of these RigSpecs.
@@ -129,9 +195,17 @@ RigSpec-relative `agent_ref` and `cwd` paths resolve from the selected rig
 directory. Each referenced AgentSpec is under `openrig/agents/<role>/agent.yaml`.
 Its required `guidance/role.md` is delivered as `send_text` after harness
 readiness, so no work may be assigned until the seat acknowledges its bounded
-role and dispatch. Empty topology edges do not start, order, or enforce the
-workflow. `relaunch_fresh` is only restore behavior, not proof of fresh per-task
-workers or independent review.
+role and dispatch. Each `role.md` carries the same role text as the native
+adapters plus an "OpenRig seat protocol" section that maps the workflow's
+"fresh worker" dispatch onto queue items between seats. Empty topology edges do
+not start, order, or enforce the workflow. `relaunch_fresh` is only restore
+behavior, not proof of fresh per-task workers or independent review.
+
+Codex members in the `codex` and `mixed` RigSpecs carry
+`codex_config_profile: scaffold-net`, a named Codex profile that OpenRig passes
+as `-p scaffold-net` instead of its default `-s workspace-write`. The profile
+source is `openrig/codex-profiles/scaffold-net.config.toml` and must be copied
+into the Codex home directory; see "One-time setup for Codex seats" above.
 
 OpenRig may write managed or other runtime configuration. Claude/mixed rigs use
 `CLAUDE.local.md` rather than the tracked `CLAUDE.md`; Codex managed blocks can
