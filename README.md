@@ -125,12 +125,26 @@ rig up openrig/mixed/rig.yaml
 
 Seats are named `workflow-<role>@<rig-name>`, for example
 `workflow-coordinator@scaffold-mixed`. Only the coordinator takes work from you.
-Open every seat as a terminal tile, or attach to one:
+
+Viewing all seven seats at once needs a terminal provider. OpenRig's default
+is [herdr](https://herdr.dev), an agent multiplexer installed with Homebrew;
+cmux is the alternative provider:
+
+```sh
+brew install herdr
+rig terminal status        # confirms the provider is available and alive
+```
+
+Then open every seat as a tile in one window, or attach to a single seat
+without a provider:
 
 ```sh
 rig terminal open scaffold-mixed
 tmux attach -t workflow-coordinator@scaffold-mixed
 ```
+
+`rig tui` opens OpenRig's mission-control dashboard for monitoring; its
+`terminal rig:scaffold-mixed` command opens the same tiles through the provider.
 
 Describe the work in the coordinator's terminal. Each role's
 `openrig/agents/<role>/guidance/role.md` tells the seat that its workers are the
