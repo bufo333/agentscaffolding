@@ -19,6 +19,24 @@ Run `rig whoami --json` first and after any compaction or restart. It names your
 
 Substitute the rig name `rig whoami` reports if it differs.
 
+## Obtaining a fresh worker
+
+Seats persist between tasks: a worker seat keeps its conversation after it hands an item back. The workflow requires a fresh agent for every stage, so reset the destination seat's conversation before each dispatch. Do it in place, inside the seat's existing process and tmux session, so the terminal tiles attached to that seat survive:
+
+```sh
+rig send workflow-implementer@scaffold-mixed --raw "/clear"   # claude-code seat
+rig send workflow-reviewer@scaffold-mixed --raw "/new"        # codex seat
+rig capture workflow-reviewer@scaffold-mixed
+```
+
+`rig ps --nodes --rig <rig> --full` shows each seat's runtime. The capture must show an empty prompt with no prior conversation. If the seat instead shows a native menu or prompt, that is a configuration gap you cannot drive; report it to John and do not dispatch until the seat is at an empty prompt.
+
+An in-place reset does not replay the seat's startup guidance, so the first line of every dispatch body must be: "Before anything else, read and follow openrig/agents/<role>/guidance/role.md." The seat's `rig whoami` identity and queue address are unchanged by the reset.
+
+Do this for every worker seat (bootstrapper, planner, branch-bootstrap, implementer, reviewer, integrator); it is mandatory for the reviewer, since a reviewer that saw the previous commit or the plan is not the independent exact-commit review the workflow requires. Never reset your own seat.
+
+Do not use `rig seat launch --fresh --stop` for routine freshness: it kills the seat's tmux session, which drops every terminal tile attached to it. Reserve it for a seat whose process is wedged, and tell John first, since the tile must be reopened afterwards. If a launch reports `attention_required` because the new pane could not yet be identified, wait about thirty seconds and run `rig seat status <seat>`; `Session: running`, `Startup: ready`, and `Continuity outcome: fresh` means it is usable.
+
 ## Dispatching a stage
 
 Create one queue item per bounded delegation. The body must carry everything the role text in docs/agent-workflow.md requires for that stage: the mode (draft, freeze, implementation, correction, continuation, commit, review, integrate), the approved artifact path and its SHA-256, the branch, the exact base revision, and for review the exact commit. Use a file body for anything longer than a few lines.
@@ -42,7 +60,7 @@ Both commands nudge the destination seat by default. Do not add `--no-nudge` in 
 
 A worker finishes by handing a queue item back to you, which wakes you. Do not poll with repeated `rig capture`. If you need to look, use `rig queue list --owned` for your own items, `rig queue show <id> --full` to read one, and `rig ps --nodes --rig <rig>` for seat state.
 
-If `rig ps` shows a worker in `needs-input`, it is stuck on an interactive or permission prompt that it cannot act through from inside its own turn. Report the seat and the prompt to John in your own terminal. Never use `rig send --dangerously-interact` to drive another seat's permission prompt.
+If `rig ps` shows a worker in `needs-input`, it is stuck on an interactive or permission prompt that it cannot act through from inside its own turn. Seats are configured to run without native prompts, so a parked seat is a configuration gap: report the seat and the exact prompt text to John in your own terminal. Never use `rig send --dangerously-interact` to drive another seat's permission prompt.
 
 ## Receiving a result
 
@@ -64,4 +82,4 @@ John reads your terminal. Present the draft hash, the exact commit for integrati
 
 ## Freshness
 
-Seats relaunch fresh each time the rig comes up, and role separation is enforced by the seats themselves: the reviewer seat never plans or implements. A new queue item to the reviewer seat for a changed commit is the fresh exact-commit review the workflow requires. If you believe a seat's accumulated context compromises a task, say so to John and ask for that seat to be restarted rather than working around it.
+Role separation is enforced by the seats themselves: the reviewer seat never plans or implements. Freshness is enforced by you: a queue item alone is not a fresh review; the reset in "Obtaining a fresh worker" is. If a reset does not leave the seat at an empty prompt, do not dispatch to that seat; say so to John and ask for the seat to be restarted rather than working around it.

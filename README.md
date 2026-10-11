@@ -75,9 +75,17 @@ cp openrig/codex-profiles/scaffold-net.config.toml ~/.codex/scaffold-net.config.
 ```
 
 If `CODEX_HOME` is set in the daemon's launch environment, copy it there instead.
-The profile keeps the `workspace-write` sandbox and `on-request` approvals and
-only enables `network_access`, which grants general network access to those
-seats, not just the daemon. Without the file, `rig up` fails for Codex members.
+The profile keeps the `workspace-write` sandbox, sets `approval_policy` to
+`never` so an unattended seat never parks on an approval (a command the sandbox
+blocks simply fails and the seat reports it), and enables `network_access`,
+which grants general network access to those seats, not just the daemon.
+Without the file, `rig up` fails for Codex members.
+
+The tracked `.codex/config.toml` also turns off Codex's `worktrees` feature.
+With it on, every `/new` sent to a Codex seat opens a "Where should the new
+conversation run?" menu that no seat can answer. If a seat still shows that
+menu after a restart, the project-level flag was not honored; add the same
+`[features]` `worktrees = false` lines to `~/.codex/config.toml`.
 
 The first time OpenRig launches Codex in a project, Codex shows a "Hooks need
 review" dialog for OpenRig's activity hooks. Answer it in each Codex seat
@@ -85,6 +93,31 @@ terminal (`tmux attach -t <seat>`), then restart the rig: role guidance typed
 while that dialog is open is lost, and seats that started without it fall back
 to in-process subagents instead of queue dispatch. Codex records the trust in
 `~/.codex/config.toml`, so later launches do not prompt.
+
+### Permissions for unattended seats
+
+Nobody sits at a seat, so a native permission prompt parks it until you notice.
+The tracked `.claude/settings.json` therefore has no Bash deny or ask rules and
+allows `rig`, `git`, and the hash commands outright. Nothing in the harness now
+blocks `git push`, `git fetch`, or `gh`; the no-remote rule is enforced only by
+`AGENTS.md`, `CLAUDE.md`, and the role guidance.
+
+OpenRig launches Claude Code seats with `--permission-mode acceptEdits`, which
+still prompts for anything not covered by an allow rule, including compound
+commands. Switch each Claude seat to `auto` mode once after the rig exists; the
+choice is stored by the daemon and applies to that seat's next launch:
+
+```sh
+rig seat set-permissions workflow-planner@scaffold-mixed --mode auto \
+  --reason "unattended seat" --operator john
+rig seat set-permissions workflow-implementer@scaffold-mixed --mode auto \
+  --reason "unattended seat" --operator john
+```
+
+For `openrig/claude/rig.yaml` run it for all seven seats. Confirm with
+`rig seat status <seat>`, which should show `Permission mode for future
+launches: auto`. The selection is per seat record, so re-run it after
+`rig down --delete` recreates the rig.
 
 ### Model assignments by rig variant
 
@@ -160,8 +193,24 @@ rig transcript workflow-coordinator@scaffold-mixed --tail 50
 ```
 
 A seat in `needs-input` is stuck on a native prompt that only you can answer.
-Claude Code seats prompt for `rig` commands at first use; choosing the
-"don't ask again" option for `rig whoami` and `rig queue` avoids repeats.
+With the permission setup above that should not happen; when it does, the
+coordinator reports the seat and the prompt text, and the fix is a
+configuration change, not an answer typed into the tile.
+
+Seats persist between tasks, so the coordinator resets a worker seat's
+conversation in place before every dispatch: `/clear` for a Claude Code seat,
+`/new` for a Codex seat, sent with `rig send <seat> --raw`. That is how each
+stage gets the fresh agent `docs/agent-workflow.md` requires without killing
+the seat's tmux session, which would drop its herdr tile. To do it by hand:
+
+```sh
+rig send workflow-reviewer@scaffold-mixed --raw "/new"
+rig send workflow-implementer@scaffold-mixed --raw "/clear"
+```
+
+`rig seat launch <seat> --fresh --stop` also gives a blank occupant, but it
+kills the tmux session, so every tile attached to that seat has to be reopened
+with `rig terminal open <rig>`. Use it only for a wedged seat.
 
 ### Restarting
 

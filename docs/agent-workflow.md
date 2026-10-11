@@ -75,10 +75,12 @@ Work starts only from a user-approved plan after governance bootstrap. One
 implementation branch may be in flight. Before creating a branch, the
 coordinator and branch-bootstrap agent must verify that no local implementation
 branch remains besides the declared base; an existing branch must be reviewed,
-integrated, and deleted before another is created. Branch creation, commits,
-fast-forward merges, and branch deletion require an explicit permission prompt in
-the active tool.
+integrated, and deleted before another is created. Branch creation, staging,
+and commits are authorized by the user's approval of the exact plan hash;
+fast-forward integration and branch deletion are authorized by the user's single
+approval of the exact accepted commit. Tracked tool permission rules that let
+those commands run without a native prompt do not waive either approval.
 
 Technical decisions belong to the fresh planner. The coordinator asks the user
 only for unresolved product or architecture policy, approval of exact hashes,
-material plan revisions, and Git permission prompts.
+material plan revisions, and approval of the exact commit to integrate.
