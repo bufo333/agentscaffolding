@@ -17,6 +17,7 @@ follow-up questions when an answer leaves a project policy unresolved.
 9. What test levels, coverage expectations, fixtures, manual checks, and CI requirements are required?
 10. What documentation, changelog, migration, release, or versioning rules apply?
 11. What Git branch, commit, review, integration, and local-versus-remote-operation rules apply beyond this scaffold?
+    The scaffold's scope rules (completion work in scope by default, bounded material gaps by amendment) apply unless the user narrows them here.
 12. Which decisions remain intentionally open, and who can resolve them?
 
 ## Bootstrap Deliverables

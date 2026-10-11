@@ -18,8 +18,10 @@ before any implementation work begins.
 - The user owns all Git remote operations. Never push, fetch, pull, or change Git
   remotes. Scoped read-only web and source research follows
   `docs/agent-workflow.md`.
-- Keep changes within an approved plan. Stop and report a conflict between the
-  plan, current repository state, and an accepted project contract.
+- Keep changes within an approved plan's outcome and boundaries. Completion work
+  the outcome needs to pass the gate and the contract is part of the plan; see
+  `docs/agent-workflow.md`. Stop and report a conflict between the plan, current
+  repository state, and an accepted project contract.
 
 ## Project-Specific Rules
 

@@ -9,7 +9,7 @@ state; they share this process, `AGENTS.md`, and immutable plan artifacts.
 | --- | --- | --- |
 | `coordinator` | One interactive session | Dispatches and verifies handoffs; never plans, edits, or changes Git state. |
 | `bootstrapper` | One governance draft, freeze, or commit operation | Creates the initial project-specific governance baseline only. |
-| `planner` | One draft or freeze operation | Inspects and writes only local plan artifacts. |
+| `planner` | One draft, amendment, or freeze operation | Inspects and writes only local plan artifacts. |
 | `branch-bootstrap` | One approved branch | Creates an approved branch from the declared base; never edits or commits. |
 | `implementer` | One approved task | Implements or corrects one approved plan and verifies it. |
 | `reviewer` | One committed revision | Independently reviews the exact revision; never writes. |
@@ -39,9 +39,18 @@ Planning state is local and ignored under `.ai/plans/`.
 - `.ai/plans/approved/<branch-slug>-<base-short-sha>-<plan-short-sha>.md` is the
   immutable, byte-identical snapshot approved by the user.
 
+- `.ai/plans/approved/<original-name>-a<n>.md` is an immutable, approved
+  amendment to that snapshot (see Scope, completion work, and amendments).
+
 The coordinator hashes a draft before presenting it. Approval applies only to that
 SHA-256. The planner freezes the draft only after verifying that hash. A mutable
 draft, pasted conversation text, or summary is never an implementation handoff.
+
+Every complete plan states the outcome, the acceptance criteria that prove it
+(behavior and tests), the boundaries that must not change, the exact base
+revision, branch and creation command, ordered changes, expected files, gate,
+risks, and non-goals. Approval binds the outcome and boundaries; the expected
+file list guides review and is not an allowlist.
 
 ## Delivery
 
@@ -52,12 +61,44 @@ draft, pasted conversation text, or summary is never an implementation handoff.
 5. A fresh implementer verifies the snapshot, branch, and base before editing,
    then runs the project-specific gate and commits.
 6. A fresh reviewer verifies the same snapshot and reviews the exact commit.
-7. Confirmed in-scope findings go to an implementer in correction mode. A material
-   scope, behavior, architecture, contract, or governance change requires a new
-   approved artifact.
+7. Blocking in-scope findings, including missing completion work, go to an
+   implementer in correction mode with the same artifact. A small, bounded
+   material gap goes through an amendment. Only a change to the outcome,
+   behavior, or architecture itself requires a new complete draft.
 8. A fresh integrator verifies the accepted commit, fast-forwards local `main`,
    and deletes the branch.
 9. Agents stop. The user owns Git remote operations.
+
+## Scope, completion work, and amendments
+
+Approval binds an outcome, not a file list. A change is material only when it
+alters approved behavior, architecture, a public API or persisted format, a
+contract rule, governance, or product policy, or adds a dependency or external
+service. Nothing else is material.
+
+Completion work is in scope by default: whatever the approved outcome needs to
+pass the gate and satisfy the contract, including tests for changed code,
+fixtures, documentation lines, build or lint repairs, and mechanical
+registration of plan-named files in gate tables or exception registries. The
+implementer does it without asking and lists each item under "Incidental
+changes" in its handoff. The reviewer confirms each item is necessary and not
+material. Missing completion work is a blocking in-scope finding, never a new
+plan.
+
+A material gap that is small and bounded takes an amendment, not a new draft.
+A fresh planner writes a delta-only amendment to `.ai/plans/draft.md`: what
+changes, why, and which acceptance criteria or boundaries change, one page at
+most. The coordinator presents its SHA-256, the user approves, and a fresh
+planner freezes it as `.ai/plans/approved/<original-name>-a<n>.md`. Work
+continues on the same branch in continuation mode under the original artifact
+plus its amendments. No repository re-inspection, restatement of the original,
+or new branch. A full new draft is required only when the outcome, behavior, or
+architecture itself changes.
+
+A planner never writes a non-goal that contradicts a contract requirement, such
+as excluding tests the contract requires for changed code or omitting gate
+registration for a new file. Such a non-goal is a planning defect; completion
+work overrides it and the reviewer reports it.
 
 ## Git remote restrictions
 
@@ -82,5 +123,6 @@ approval of the exact accepted commit. Tracked tool permission rules that let
 those commands run without a native prompt do not waive either approval.
 
 Technical decisions belong to the fresh planner. The coordinator asks the user
-only for unresolved product or architecture policy, approval of exact hashes,
-material plan revisions, and approval of the exact commit to integrate.
+only for unresolved product or architecture policy, approval of exact plan and
+amendment hashes, and approval of the exact commit to integrate. Completion work
+and in-scope corrections are never sent to the user as decisions.

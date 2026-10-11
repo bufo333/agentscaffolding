@@ -39,7 +39,7 @@ Do not use `rig seat launch --fresh --stop` for routine freshness: it kills the 
 
 ## Dispatching a stage
 
-Create one queue item per bounded delegation. The body must carry everything the role text in docs/agent-workflow.md requires for that stage: the mode (draft, freeze, implementation, correction, continuation, commit, review, integrate), the approved artifact path and its SHA-256, the branch, the exact base revision, and for review the exact commit. Use a file body for anything longer than a few lines.
+Create one queue item per bounded delegation. The body must carry everything the role text in docs/agent-workflow.md requires for that stage: the mode (draft, amendment, freeze, implementation, correction, continuation, commit, review, integrate), the approved artifact path and its SHA-256 plus any approved amendment paths and hashes, the branch, the exact base revision, and for review the exact commit. Missing completion work and in-scope findings go back to the implementer in correction mode; a bounded material gap goes to a planner in amendment mode; only a change to the outcome itself starts a new draft. Never send completion work or an in-scope correction to John as a decision. Use a file body for anything longer than a few lines.
 
 ```sh
 rig queue create --destination workflow-planner@scaffold-mixed \
