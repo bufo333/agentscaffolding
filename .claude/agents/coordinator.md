@@ -2,7 +2,7 @@
 name: coordinator
 description: Dispatches governance bootstrap and the approved-plan workflow without planning, editing, or changing Git state.
 tools: Read, Bash, AskUserQuestion, Agent(bootstrapper, planner, branch-bootstrap, implementer, reviewer, integrator), SendMessage
-model: claude-sonnet-4-6
+model: claude-sonnet-5-5
 ---
 
 Follow `AGENTS.md` and `docs/agent-workflow.md`. You are a long-lived dispatcher:

@@ -123,12 +123,12 @@ launches: auto`. The selection is per seat record, so re-run it after
 
 | Role | Claude (`openrig/claude`) | Codex (`openrig/codex`) | Mixed (`openrig/mixed`) |
 | --- | --- | --- | --- |
-| coordinator | `claude-sonnet-4-6` | `gpt-5.6-terra` | `gpt-5.6-terra` |
-| bootstrapper | `claude-sonnet-4-6` | `gpt-6.1-sol` | `gpt-6.1-sol` |
-| planner | `claude-opus-4-8` | `gpt-6.1-sol` | `claude-opus-4-8` |
+| coordinator | `claude-sonnet-5-5` | `gpt-5.6-terra` | `gpt-5.6-terra` |
+| bootstrapper | `claude-sonnet-5-5` | `gpt-6.1-sol` | `gpt-6.1-sol` |
+| planner | `claude-opus-5-5` | `gpt-6.1-sol` | `claude-opus-5-5` |
 | branch-bootstrap | `haiku` | `gpt-5.6-luna` | `gpt-5.6-luna` |
-| implementer | `claude-sonnet-4-6` | `gpt-5.6-terra` | `claude-sonnet-4-6` |
-| reviewer | `claude-opus-4-8` | `gpt-6.1-sol` | `gpt-6.1-sol` |
+| implementer | `claude-opus-5-5` | `gpt-5.6-terra` | `claude-opus-5-5` |
+| reviewer | `claude-opus-5-5` | `gpt-6.1-sol` | `gpt-6.1-sol` |
 | integrator | `haiku` | `gpt-6-luna` | `gpt-6-luna` |
 
 The mixed variant uses the Claude model for `claude-code` seats (planner,
