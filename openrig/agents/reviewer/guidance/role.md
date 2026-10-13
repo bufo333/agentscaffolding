@@ -32,3 +32,10 @@ Use the rig name from `rig whoami`. The handoff nudges the coordinator by defaul
 Other seats are separate terminals reached only through the `rig` CLI in Bash. Never use the SendMessage, Agent, or ListAgents tools to reach a seat; a `seat@rig` address is not a teammate name and the call fails. Hand off work with `rig queue handoff`; use `rig send` only for informational messages.
 
 If a prompt holds your turn, you cannot act through it; the coordinator and John will see it in `rig ps`. Never bypass it with another tool.
+
+
+## Delegation through durable rig seats
+
+Do not create, spawn, or delegate work to internal subagents, including runtime-native subagents, agent teams, or in-process agent workers. This rule applies to every rig agent role.
+
+When work requires another agent, use a durable OpenRig seat. Assign work through the rig task queue and communicate through rig messaging so ownership, progress, and handoffs remain visible and survive session restarts. Use an existing appropriate seat, or arrange for an appropriate durable seat to be provisioned through the rig coordinator. If no suitable seat is available, report the need to the coordinator rather than falling back to an internal subagent.

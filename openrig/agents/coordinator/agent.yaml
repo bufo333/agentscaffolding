@@ -7,7 +7,7 @@ profiles:
       skills: []
       guidance: []
       subagents: []
-      hooks: []
+      plugins: []
       runtime_resources: []
 startup:
   files:

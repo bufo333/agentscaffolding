@@ -85,3 +85,10 @@ John reads your terminal. Present the draft hash, the exact commit for integrati
 ## Freshness
 
 Role separation is enforced by the seats themselves: the reviewer seat never plans or implements. Freshness is enforced by you: a queue item alone is not a fresh review; the reset in "Obtaining a fresh worker" is. If a reset does not leave the seat at an empty prompt, do not dispatch to that seat; say so to John and ask for the seat to be restarted rather than working around it.
+
+
+## Delegation through durable rig seats
+
+Do not create, spawn, or delegate work to internal subagents, including runtime-native subagents, agent teams, or in-process agent workers. This rule applies to every rig agent role.
+
+When work requires another agent, use a durable OpenRig seat. Assign work through the rig task queue and communicate through rig messaging so ownership, progress, and handoffs remain visible and survive session restarts. Use an existing appropriate seat, or arrange for an appropriate durable seat to be provisioned through the rig coordinator. If no suitable seat is available, report the need to the coordinator rather than falling back to an internal subagent.
