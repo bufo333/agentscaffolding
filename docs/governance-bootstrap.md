@@ -37,6 +37,9 @@ as open questions and does not state them as requirements.
 
 The coordinator lists every proposed path and SHA-256. The user approves the exact
 set of hashes. A fresh bootstrapper verifies the hashes, stages only those files,
-and creates one local baseline commit through an explicit permission prompt.
+and creates one local baseline commit using the runtime's applicable
+authorization mechanism. The exact-hash user approval is the authorization
+record; a native permission prompt is additionally required only when that
+runtime presents one.
 
 Suggested commit subject: `Establish project governance baseline`.
